@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <title>My Task Board</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="main.css">
+    <link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header"><img src="images/title.png" alt="My Task Board" /></div>
+
+
+        <div class="formBox">
+            <label>Date <span class="red">* </span><input id="date" type="date"></label>
+            <label>Time <span class="red">* </span><input id="time" type="time"></label>
+            <label class="taskLabel">New Task</label>
+            <textarea id="details" class="taskDetails" cols="50" rows="3" placeholder="Enter task details" onkeypress="return searchKeyPress(event);"></textarea>
+            <button class="saveButton" id="newTask">Save</button>
+        </div>
+
+        <div class="tasks" id="tasks"></div>
+
+    </div>
+
+    <script src="main.js"></script>
+
+</body>
+
+</html>
