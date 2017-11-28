@@ -1,17 +1,17 @@
-main *{
+main * {
     box-sizing: border-box;
 }
 
 @font-face {
     font-family: 'orson';
     src: url('fonts/SF Orson Casual Medium.ttf') format('truetype'),
-         url('fonts/SF Orson Casual Heavy.ttf') format('truetype');
+    url('fonts/SF Orson Casual Heavy.ttf') format('truetype');
 }
 
 
 body {
     margin: 20px;
-    
+
 }
 
 .container {
@@ -46,7 +46,7 @@ body {
     text-align: center;
     background-image: url("images/formbg.jpg");
     padding: 20px;
-    }
+}
 
 label {
     font-family: 'orson';
@@ -95,7 +95,7 @@ label {
     text-align: left;
 }
 
-.taskNote:hover > .del  {
+.taskNote:hover > .del {
     visibility: visible;
 }
 
@@ -130,53 +130,78 @@ label {
 .del {
     position: relative;
     top: 120px;
-    font-family:
-    width: 20px;
+    font-family: width: 20px;
     height: 20px;
-    text-align: left;  
+    text-align: left;
     visibility: hidden;
 }
 
-.inv {
+.delInv {
     background-color: transparent;
     border-color: transparent;
     width: 20px;
-    height: 20px; 
-    }
+    height: 20px;
+}
+
+.edInv {
+    background-color: transparent;
+    border-color: transparent;
+    width: 20px;
+    height: 20px;
+}
+
+.editTask {
+    height: 95px;
+    width: 160px;
+    position: relative;
+    top: -50px;
+    left: 0px;
+    background-color: white;
+    font-family: 'orson';
+    font: "SF Orson Casual Medium";
+    overflow-y: scroll;
+    overflow-x: hidden;
+    resize: none;
+ }
+
+.inv {
+    visibility: hidden;
+}
 
 .fade-in {
-	opacity: 1;
-	animation-name: fadeInOpacity;
-	animation-iteration-count: 1;
-	animation-timing-function: ease-in;
-	animation-duration: 1s;
+    opacity: 1;
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 1s;
 }
 
 @keyframes fadeInOpacity {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .fade-out {
-	opacity: 0;
-	animation-name: fadeOutOpacity;
-	animation-iteration-count: 1;
-	animation-timing-function: ease-out;
-	animation-duration: 1s;
+    opacity: 0;
+    animation-name: fadeOutOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-out;
+    animation-duration: 1s;
 }
 
 @keyframes fadeOutOpacity {
-	0% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0;
-	}
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 .red {
     color: red;
+}

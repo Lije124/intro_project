@@ -5,16 +5,15 @@ function task(date, time, details) {
 }
 
 var taskList = [];
-var existingTasks = [];
 
-// This function retrieves the existing array from local storage and calls the general display function if there are elements in the array.
+// This function is necessary in order to display the existing notes from local storage when loading the page, but only if there are any. 
 
 function preDisplay() {
-    existingTasks = JSON.parse(localStorage.getItem("taskList"));
+    let existingTasks = JSON.parse(localStorage.getItem("taskList"));
     if (existingTasks.length > 0) {
         taskList = existingTasks;
         displayTasks();
-    };
+    }
 }
 
 window.onload = preDisplay;
@@ -26,23 +25,28 @@ var addButton = addTask.addEventListener("click", getTask);
 
 function getTask() {
 
-    var taskDate = document.getElementById("date").value;
+    let taskDate = document.getElementById("date").value;
     if (!taskDate) {
         alert("Please enter the date!");
         return;
     }
-    var taskTime = document.getElementById("time").value;
+    let taskTime = document.getElementById("time").value;
     if (!taskTime) {
         alert("Please enter the time!");
         return;
     }
-    var taskDetails = document.getElementById("details").value;
+    let taskDetails = document.getElementById("details").value;
     if (!taskDetails) {
         alert("Please enter the task details!");
         return;
     }
-    var listItem = new task(taskDate, taskTime, taskDetails);
+
+    let listItem = new task(taskDate, taskTime, taskDetails);
     taskList.push(listItem);
+
+    for (let i = 0; i < taskList.length; i++) {
+        taskList[i].id = i;
+    }
 
     localStorage.setItem("taskList", JSON.stringify(taskList));
     displayTask(listItem);
@@ -51,107 +55,144 @@ function getTask() {
     document.getElementById("details").value = "";
 }
 
-// This function displays the new task without reloading all the existing tasks. It then calls the delete button function.
+// This function displays the new note without reloading all the existing ones. It calls the button functions, which append the necessary behaviors to the delete and edit buttons.
 
 function displayTask(task) {
-    
-        var itemIndex = taskList.indexOf(task);
 
-        var itemDiv = document.createElement("div");
-        itemDiv.id = "tn" + itemIndex;
-        itemDiv.className = "taskNote fade-in";
-        var noteAdd = document.getElementById("tasks").appendChild(itemDiv);
+    let itemIndex = task.id;
+    console.log(itemIndex);
 
-        var textDiv = document.createElement("div");
-        textDiv.className = "taskText";
-        textDiv.innerHTML = taskList[itemIndex].details;
-        var textAdd = document.getElementById(itemDiv.id).appendChild(textDiv);
+    let itemDiv = document.createElement("div");
+    itemDiv.id = "tn" + itemIndex;
+    console.log(itemDiv.id);
+    itemDiv.className = "taskNote fade-in";
+    let noteAdd = document.getElementById("tasks").appendChild(itemDiv);
 
-        var timeDiv = document.createElement("div");
-        timeDiv.className = "dateTime";
-        timeDiv.innerHTML = taskList[itemIndex].date + "<br />" + taskList[itemIndex].time;
-        var timeAdd = document.getElementById(itemDiv.id).appendChild(timeDiv);
+    let textDiv = document.createElement("div");
+    textDiv.className = "taskText";
+    textDiv.innerHTML = task.details;
+    let textAdd = document.getElementById(itemDiv.id).appendChild(textDiv);
 
-        var delIcon = document.createElement("div");
-        delIcon.id = "di" + itemIndex;
-        delIcon.className = "del";
-        var delIconAdd = document.getElementById(itemDiv.id).appendChild(delIcon);
+    let timeDiv = document.createElement("div");
+    timeDiv.className = "dateTime";
+    timeDiv.innerHTML = task.date + "<br />" + task.time;
+    let timeAdd = document.getElementById(itemDiv.id).appendChild(timeDiv);
 
-        var delButton = document.createElement("button");
-        delButton.className = "inv glyphicon glyphicon-trash";
-        var delIconAdd = document.getElementById(delIcon.id).appendChild(delButton);
+    let iconDiv = document.createElement("div");
+    iconDiv.id = "di" + itemIndex;
+    iconDiv.className = "del";
+    let iconDivAdd = document.getElementById(itemDiv.id).appendChild(iconDiv);
 
-        deleteButtons();  
+    let delButton = document.createElement("button");
+    delButton.className = "delInv glyphicon glyphicon-trash";
+    let delButtonAdd = document.getElementById(iconDiv.id).appendChild(delButton);
+
+    let spaceAdd = document.getElementById(iconDiv.id).innerHTML += "&nbsp;&nbsp;";
+
+    let editButton = document.createElement("button");
+    editButton.className = "edInv glyphicon glyphicon-pencil";
+    let editButtonAdd = document.getElementById(iconDiv.id).appendChild(editButton);
+
+    deleteButtons();
+    editButtons();
 
 }
 
-// This function clears the page and loads all of the existing array elements in local storage. It then calls the delete button function.
+// This function displays all of the existing array elements in local storage when the page is loaded and after the button functions are invoked. It calls the buttons function, which appends the necessary behaviors to the delete and edit buttons. It was necessary to clear the page first, because without this I was seeing overlapping elements when the function was called. 
 
 function displayTasks() {
 
-    var clearBoard = document.getElementById("tasks").innerHTML = "";
+    document.getElementById("tasks").innerHTML = "";
 
-    var i = 0;
-
-    do {
-        var itemDiv = document.createElement("div");
+    for (let i = 0; i < taskList.length; i++) {
+        let itemDiv = document.createElement("div");
         itemDiv.id = "tn" + i;
         itemDiv.className = "taskNote fade-in";
-        var noteAdd = document.getElementById("tasks").appendChild(itemDiv);
+        let noteAdd = document.getElementById("tasks").appendChild(itemDiv);
 
-        var textDiv = document.createElement("div");
+        let textDiv = document.createElement("div");
         textDiv.className = "taskText";
         textDiv.innerHTML = taskList[i].details;
-        var textAdd = document.getElementById(itemDiv.id).appendChild(textDiv);
+        let textAdd = document.getElementById(itemDiv.id).appendChild(textDiv);
 
-        var timeDiv = document.createElement("div");
+        let timeDiv = document.createElement("div");
         timeDiv.className = "dateTime";
         timeDiv.innerHTML = taskList[i].date + "<br />" + taskList[i].time;
-        var timeAdd = document.getElementById(itemDiv.id).appendChild(timeDiv);
+        let timeAdd = document.getElementById(itemDiv.id).appendChild(timeDiv);
 
-        var delIcon = document.createElement("div");
-        delIcon.id = "di" + i;
-        delIcon.className = "del";
-        var delIconAdd = document.getElementById(itemDiv.id).appendChild(delIcon);
+        let iconDiv = document.createElement("div");
+        iconDiv.id = "di" + i;
+        iconDiv.className = "del";
+        let iconDivAdd = document.getElementById(itemDiv.id).appendChild(iconDiv);
 
-        var delButton = document.createElement("button");
-        delButton.className = "inv glyphicon glyphicon-trash";
-        var delIconAdd = document.getElementById(delIcon.id).appendChild(delButton);
+        let delButton = document.createElement("button");
+        delButton.className = "delInv glyphicon glyphicon-trash";
+        let delButtonAdd = document.getElementById(iconDiv.id).appendChild(delButton);
 
-        i += 1;
+        let spaceAdd = document.getElementById(iconDiv.id).innerHTML += "&nbsp;&nbsp;";
 
-    } while (i < taskList.length);
+        let editButton = document.createElement("button");
+        editButton.className = "edInv glyphicon glyphicon-pencil";
+        let editButtonAdd = document.getElementById(iconDiv.id).appendChild(editButton);
 
-  deleteButtons();  
+    }
+
+    deleteButtons();
+    editButtons();
 
 }
 
-// This function calls of the existing array elements and adds a delete function to the trash icon. The delete function fades out the note from which it is called. Reloading the page displays the modified array.
+/*  This function calls the existing array elements and adds a delete function to the trash icon:  */
 
 function deleteButtons() {
-    var buttons = document.getElementsByClassName("inv");
-    var i;
-    for (i = 0; i < buttons.length; i++) {
-        buttons[i].onclick = function () {
-            var boxDiv = this.parentElement;
-            var taskDiv = boxDiv.parentElement;
+    let delButtons = document.getElementsByClassName("delInv");
+
+    /* The anonymous delete function was supposed to fade out the note from which it is called, which left an empty space on the page. So I added the (commented out) removeChild code to delete the item from the HTML. This removed the space, however when I created a new task, it's innerHTML overlapped with the previous one, as if it were filling the space of the deleted item. The easiest thing to do would be to call the general display function, which would reinitialize the array and display the remaining elements. However calling the general display function causes all the items to reload, which negated the fade out. I tried a few ways of reinitializing the array without reloading the page, but even though I succeeded in assigning new ids to the remaining elements, this problem persisted. In the end I decided that this was way too much effort for a stupid fade out, so I invoked the display function. */
+
+    for (let i = 0; i < delButtons.length; i++) {
+        delButtons[i].onclick = function () {
+            let boxDiv = this.parentElement;
+            let taskDiv = boxDiv.parentElement;
             taskDiv.className = "taskNote fade-out";
-            var taskId = taskDiv.id;
-            var taskIndex = taskId.charAt(taskId.length - 1);
+            let taskId = taskDiv.id;
+            let taskIndex = taskId.charAt(taskId.length - 1);
             taskList.splice(taskIndex, 1);
             localStorage.setItem("taskList", JSON.stringify(taskList));
+ //         taskDiv.parentNode.removeChild(taskDiv);
+            displayTasks();
+        }
+    }
+}
+
+// This function calls the existing array elements and adds an edit function to the pencil icon. This function opens a text area over the note, in which to enter new task details. Because I did not want to create a new button for updating the task with the new details, I added a sub-function that changes the onclick function of the pencil icon. 
+
+function editButtons() {
+    let editButtons = document.getElementsByClassName("edInv");
+    for (let i = 0; i < editButtons.length; i++) {
+        editButtons[i].onclick = function () {
+            let boxDiv = this.parentElement;
+            let taskDiv = boxDiv.parentElement;
+            let taskId = taskDiv.id;
+            let taskIndex = taskId.charAt(taskId.length - 1);
+            let editDiv = document.createElement("textarea");
+            editDiv.className = "editTask";
+            editDiv.placeholder = "Edit details and reclick the icon";
+            let editDivAdd = document.getElementById(taskDiv.id).appendChild(editDiv);
+            this.onclick = function () {
+                taskList[taskIndex].details = editDiv.value;
+                localStorage.setItem("taskList", JSON.stringify(taskList));
+                displayTasks();
+            }
         }
     }
 }
 
 // This function allows you to add a new task after entering the task details by hitting Enter, rather than clicking the Add button.
 
-function searchKeyPress(e)
-{
+function detailsKeyPress(e) {
     // look for window.event in case event isn't passed in
     e = e || window.event;
-    if (e.keyCode == 13)
-    {
+    if (e.keyCode == 13) {
         document.getElementById('newTask').click();
         return false;
     }
