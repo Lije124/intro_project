@@ -164,8 +164,19 @@ label {
     resize: none;
  }
 
-.inv {
-    visibility: hidden;
+.alert {
+    height: 80px;
+    width: 200px;
+    position: relative;
+    top: -146px;
+    margin: 0 auto;
+    background-color: lightyellow;
+    border: thick solid black;
+    font-family: 'orson';
+    font: "SF Orson Casual Heavy";
+    font-size: 15;
+    line-height: 15px;
+    font-weight: 600;
 }
 
 .fade-in {
@@ -200,6 +211,10 @@ label {
     100% {
         opacity: 0;
     }
+}
+
+.inv {
+    visibility: hidden;
 }
 
 .red {

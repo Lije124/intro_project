@@ -27,17 +27,20 @@ function getTask() {
 
     let taskDate = document.getElementById("date").value;
     if (!taskDate) {
-        alert("Please enter the date!");
+        let message = "Please enter the date!";
+        addAlert(message);
         return;
     }
     let taskTime = document.getElementById("time").value;
     if (!taskTime) {
-        alert("Please enter the time!");
+        let message = "Please enter the time!";
+        addAlert(message);
         return;
     }
     let taskDetails = document.getElementById("details").value;
     if (!taskDetails) {
-        alert("Please enter the task details!");
+        let message = "Please enter the task details!";
+        addAlert(message);
         return;
     }
 
@@ -60,11 +63,9 @@ function getTask() {
 function displayTask(task) {
 
     let itemIndex = task.id;
-    console.log(itemIndex);
 
     let itemDiv = document.createElement("div");
     itemDiv.id = "tn" + itemIndex;
-    console.log(itemDiv.id);
     itemDiv.className = "taskNote fade-in";
     let noteAdd = document.getElementById("tasks").appendChild(itemDiv);
 
@@ -147,7 +148,7 @@ function displayTasks() {
 function deleteButtons() {
     let delButtons = document.getElementsByClassName("delInv");
 
-    /* The anonymous delete function was supposed to fade out the note from which it is called, which left an empty space on the page. So I added the (commented out) removeChild code to delete the item from the HTML. This removed the space, however when I created a new task, it's innerHTML overlapped with the previous one, as if it were filling the space of the deleted item. The easiest thing to do would be to call the general display function, which would reinitialize the array and display the remaining elements. However calling the general display function causes all the items to reload, which negated the fade out. I tried a few ways of reinitializing the array without reloading the page, but even though I succeeded in assigning new ids to the remaining elements, this problem persisted. In the end I decided that this was way too much effort for a stupid fade out, so I invoked the display function. */
+    /* The anonymous delete function was supposed to fade out the note from which it is called, which left an empty space on the page. So I added the (commented out) removeChild code to delete the item from the HTML. This removed the space, however when I created a new task, it's innerHTML overlapped with the previous one, as if it were filling the space of the deleted item. The easiest thing to do would be to call the general display function, which would reinitialize the array and display the remaining elements. However calling the general display function causes all the items to reload, which negated the fade out. I tried a few ways of reinitializing the array without reloading the page, but even though I succeeded in assigning new ids to the remaining elements, this problem persisted. In the end I decided that this was way too much effort for a fade out effect with no fuctional necessity, so I invoked the display function. */
 
     for (let i = 0; i < delButtons.length; i++) {
         delButtons[i].onclick = function () {
@@ -186,6 +187,23 @@ function editButtons() {
         }
     }
 }
+
+// This function creates an alert message, because you told us not to use the default alert function...
+
+function addAlert(message) {
+    let alertDiv = document.createElement("div");
+    alertDiv.id = "alertDiv"
+    alertDiv.className = "alert";
+    alertDiv.innerHTML = message + "<br /><br /><button onclick='hideAlert()'>OK</button>";
+    let alertAdd = document.getElementById("formBox").appendChild(alertDiv);
+}
+
+// This function removes the alert message when the user clicks OK.
+
+function hideAlert(alertDiv) {
+    let getAlert = document.getElementById("alertDiv");
+    getAlert.parentNode.removeChild(getAlert);
+} 
 
 // This function allows you to add a new task after entering the task details by hitting Enter, rather than clicking the Add button.
 
